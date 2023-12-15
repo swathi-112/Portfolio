@@ -1,0 +1,31 @@
+---
+title: "Swathi Reddy Bobbala"
+image: swathi.jpg
+resources: swathi resume.pdf
+about: 
+  template: marquee
+  image-shape: round
+  image-width: 14em
+  links:
+  - text: Email
+    icon: envelope
+    href: mailto:swathireddybobbala@my.unt.edu
+  - text: GitHub
+    icon: github
+    href: https://github.com/swathi-112
+  - text: Resume
+    icon: file-text
+    href: swathi resume.pdf
+  id: ppc
+---
+
+::: {#ppc}
+Swathi Reddy is currently pursuing her Masters of Science in Advanced Data Analytics at the University of North Texas.She completed her B.Tech in Computer Science Engineering from JNTU,India.
+
+Experience in migration of existing solutions on On-Premise systems/applications to Azure cloud.Around 10 years of expertise in Analysis, Design, and Development of data platform on on-prem and Azure Cloud with high-quality Data Modelling, design, and development of Data Pipelines to ingest, store and transform data for data analytics and systems integration.
+
+Proficient in Java,Spring,J2EE, MS SQL Server, HTML, Maven, Log4j, Eclipse, Linux, Unix, Hadoop, Apache Spark.
+:::
+
+
+

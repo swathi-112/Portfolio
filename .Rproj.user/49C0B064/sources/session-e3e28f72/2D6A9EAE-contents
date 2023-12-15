@@ -1,0 +1,11 @@
+
+---
+title: "Resume"
+output:
+  quarto::quarto_html:
+    self_contained: false
+---
+
+<iframe width="800" height="800" src="swathi resume.pdf">
+
+</iframe>

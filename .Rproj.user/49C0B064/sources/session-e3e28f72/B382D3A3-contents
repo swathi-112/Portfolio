@@ -1,0 +1,116 @@
+---
+title: "Predicting Ozone levels with Precision"
+author: "SwathiReddy Bobbala"
+date: "2023-12-14"
+image: "knn.jpg"
+theme: litera
+---
+
+## Analyzing New York's Air Quality Data with k-Nearest Neighbors
+
+In my recent exploration of machine learning techniques using RStudio, I delved into the k-Nearest Neighbors (kNN) algorithm, applying it to the airquality dataset. This dataset, rich in New York's air quality measurements, served as an ideal canvas for examining the nuances of kNN. Renowned for its simplicity, kNN predicts outcomes based on the closest 'k' data points, striking a balance between simplicity and accuracy.
+
+The journey began with meticulous data preparation, involving normalization and handling missing values to ensure a level playing field for all variables. A critical aspect of kNN is the choice of 'k', the number of nearest neighbors to consider. This choice is pivotal, as a low 'k' might limit the model's perspective, while a high 'k' could dilute its discriminative power.
+
+Evaluating the model's performance was revealing. Through actual vs. predicted value plots and error distribution analyses, I gained insights into the model's accuracy and areas of improvement. This phase not only highlighted kNN's ability to uncover patterns in complex environmental data but also offered a transparent evaluation of its predictive capabilities
+
+Step 1: Installing and Loading Packages
+
+```{r}
+
+library(class)
+library(ggplot2)
+library(corrplot)
+
+```
+
+Step 2: Loading the Dataset
+
+```{r}
+
+data(airquality)
+airquality <- na.omit(airquality)
+
+```
+
+Step 3: Normalize the Dataset
+
+```{r}
+normalize <- function(x) {
+  return ((x - min(x)) / (max(x) - min(x)))
+}
+airquality_norm <- as.data.frame(lapply(airquality, normalize))
+
+```
+
+Step 4: Splitting into training and testing sets
+
+```{r}
+
+set.seed(123) 
+indices <- sample(1:nrow(airquality_norm), nrow(airquality_norm) * 0.7)
+train_data <- airquality_norm[indices, ]
+test_data <- airquality_norm[-indices, ]
+
+```
+
+Step 5: Apply kNN
+
+```{r}
+
+k <- 5 # Number of neighbors
+ozone_predictions <- knn(train = train_data[, -1], test = test_data[, -1], cl = train_data$Ozone, k = k)
+```
+
+Step 6: Evaluate the model
+
+```{r}
+
+actual_vs_predicted <- data.frame(Actual = test_data$Ozone, Predicted = as.numeric(levels(ozone_predictions))[ozone_predictions])
+
+```
+
+Step 7: Feature Distribution Plots
+
+```{r}
+
+par(mfrow = c(2, 2))
+for(i in 1:4) {
+  hist(airquality_norm[,i], main=names(airquality_norm)[i], xlab=names(airquality_norm)[i])
+}
+```
+
+Step 8: Correlation Plot
+
+```{r}
+
+corrplot(cor(airquality_norm[, -5]), method = "circle")
+
+
+```
+
+Step 9: Actual vs Predicted Plot
+
+```{r}
+
+ggplot(actual_vs_predicted, aes(x = Actual, y = Predicted)) + 
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "red") +
+  ggtitle("Actual vs Predicted Ozone Levels") +
+  xlab("Actual Ozone Levels") +
+  ylab("Predicted Ozone Levels")
+
+```
+
+Step 10: Error Distribution Plot
+
+```{r}
+
+actual_vs_predicted$Error <- actual_vs_predicted$Actual - actual_vs_predicted$Predicted
+ggplot(actual_vs_predicted, aes(x = Error)) +
+  geom_histogram(bins = 30, fill = "blue", alpha = 0.7) +
+  ggtitle("Distribution of Prediction Errors") +
+  xlab("Prediction Error") +
+  ylab("Frequency")
+
+```

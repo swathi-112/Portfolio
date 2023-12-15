@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "posts/post-with-code/index.html",
+    "href": "posts/post-with-code/index.html",
+    "title": "Post With Code",
+    "section": "",
+    "text": "This is a post with executable code.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "blogs/index.html",
+    "href": "blogs/index.html",
+    "title": "Predicting Ozone levels with Precision",
+    "section": "",
+    "text": "In my recent exploration of machine learning techniques using RStudio, I delved into the k-Nearest Neighbors (kNN) algorithm, applying it to the airquality dataset. This dataset, rich in New York’s air quality measurements, served as an ideal canvas for examining the nuances of kNN. Renowned for its simplicity, kNN predicts outcomes based on the closest ‘k’ data points, striking a balance between simplicity and accuracy.\nThe journey began with meticulous data preparation, involving normalization and handling missing values to ensure a level playing field for all variables. A critical aspect of kNN is the choice of ‘k’, the number of nearest neighbors to consider. This choice is pivotal, as a low ‘k’ might limit the model’s perspective, while a high ‘k’ could dilute its discriminative power.\nEvaluating the model’s performance was revealing. Through actual vs. predicted value plots and error distribution analyses, I gained insights into the model’s accuracy and areas of improvement. This phase not only highlighted kNN’s ability to uncover patterns in complex environmental data but also offered a transparent evaluation of its predictive capabilities\nStep 1: Installing and Loading Packages\n\nlibrary(class)\nlibrary(ggplot2)\nlibrary(corrplot)\n\ncorrplot 0.92 loaded\n\n\nStep 2: Loading the Dataset\n\ndata(airquality)\nairquality &lt;- na.omit(airquality)\n\nStep 3: Normalize the Dataset\n\nnormalize &lt;- function(x) {\n  return ((x - min(x)) / (max(x) - min(x)))\n}\nairquality_norm &lt;- as.data.frame(lapply(airquality, normalize))\n\nStep 4: Splitting into training and testing sets\n\nset.seed(123) \nindices &lt;- sample(1:nrow(airquality_norm), nrow(airquality_norm) * 0.7)\ntrain_data &lt;- airquality_norm[indices, ]\ntest_data &lt;- airquality_norm[-indices, ]\n\nStep 5: Apply kNN\n\nk &lt;- 5 # Number of neighbors\nozone_predictions &lt;- knn(train = train_data[, -1], test = test_data[, -1], cl = train_data$Ozone, k = k)\n\nStep 6: Evaluate the model\n\nactual_vs_predicted &lt;- data.frame(Actual = test_data$Ozone, Predicted = as.numeric(levels(ozone_predictions))[ozone_predictions])\n\nStep 7: Feature Distribution Plots\n\npar(mfrow = c(2, 2))\nfor(i in 1:4) {\n  hist(airquality_norm[,i], main=names(airquality_norm)[i], xlab=names(airquality_norm)[i])\n}\n\n\n\n\nStep 8: Correlation Plot\n\ncorrplot(cor(airquality_norm[, -5]), method = \"circle\")\n\n\n\n\nStep 9: Actual vs Predicted Plot\n\nggplot(actual_vs_predicted, aes(x = Actual, y = Predicted)) + \n  geom_point() +\n  geom_abline(slope = 1, intercept = 0, linetype = \"dashed\", color = \"red\") +\n  ggtitle(\"Actual vs Predicted Ozone Levels\") +\n  xlab(\"Actual Ozone Levels\") +\n  ylab(\"Predicted Ozone Levels\")\n\n\n\n\nStep 10: Error Distribution Plot\n\nactual_vs_predicted$Error &lt;- actual_vs_predicted$Actual - actual_vs_predicted$Predicted\nggplot(actual_vs_predicted, aes(x = Error)) +\n  geom_histogram(bins = 30, fill = \"blue\", alpha = 0.7) +\n  ggtitle(\"Distribution of Prediction Errors\") +\n  xlab(\"Prediction Error\") +\n  ylab(\"Frequency\")"
+  },
+  {
+    "objectID": "blogs/index.html#analyzing-new-yorks-air-quality-data-with-k-nearest-neighbors",
+    "href": "blogs/index.html#analyzing-new-yorks-air-quality-data-with-k-nearest-neighbors",
+    "title": "Predicting Ozone levels with Precision",
+    "section": "",
+    "text": "In my recent exploration of machine learning techniques using RStudio, I delved into the k-Nearest Neighbors (kNN) algorithm, applying it to the airquality dataset. This dataset, rich in New York’s air quality measurements, served as an ideal canvas for examining the nuances of kNN. Renowned for its simplicity, kNN predicts outcomes based on the closest ‘k’ data points, striking a balance between simplicity and accuracy.\nThe journey began with meticulous data preparation, involving normalization and handling missing values to ensure a level playing field for all variables. A critical aspect of kNN is the choice of ‘k’, the number of nearest neighbors to consider. This choice is pivotal, as a low ‘k’ might limit the model’s perspective, while a high ‘k’ could dilute its discriminative power.\nEvaluating the model’s performance was revealing. Through actual vs. predicted value plots and error distribution analyses, I gained insights into the model’s accuracy and areas of improvement. This phase not only highlighted kNN’s ability to uncover patterns in complex environmental data but also offered a transparent evaluation of its predictive capabilities\nStep 1: Installing and Loading Packages\n\nlibrary(class)\nlibrary(ggplot2)\nlibrary(corrplot)\n\ncorrplot 0.92 loaded\n\n\nStep 2: Loading the Dataset\n\ndata(airquality)\nairquality &lt;- na.omit(airquality)\n\nStep 3: Normalize the Dataset\n\nnormalize &lt;- function(x) {\n  return ((x - min(x)) / (max(x) - min(x)))\n}\nairquality_norm &lt;- as.data.frame(lapply(airquality, normalize))\n\nStep 4: Splitting into training and testing sets\n\nset.seed(123) \nindices &lt;- sample(1:nrow(airquality_norm), nrow(airquality_norm) * 0.7)\ntrain_data &lt;- airquality_norm[indices, ]\ntest_data &lt;- airquality_norm[-indices, ]\n\nStep 5: Apply kNN\n\nk &lt;- 5 # Number of neighbors\nozone_predictions &lt;- knn(train = train_data[, -1], test = test_data[, -1], cl = train_data$Ozone, k = k)\n\nStep 6: Evaluate the model\n\nactual_vs_predicted &lt;- data.frame(Actual = test_data$Ozone, Predicted = as.numeric(levels(ozone_predictions))[ozone_predictions])\n\nStep 7: Feature Distribution Plots\n\npar(mfrow = c(2, 2))\nfor(i in 1:4) {\n  hist(airquality_norm[,i], main=names(airquality_norm)[i], xlab=names(airquality_norm)[i])\n}\n\n\n\n\nStep 8: Correlation Plot\n\ncorrplot(cor(airquality_norm[, -5]), method = \"circle\")\n\n\n\n\nStep 9: Actual vs Predicted Plot\n\nggplot(actual_vs_predicted, aes(x = Actual, y = Predicted)) + \n  geom_point() +\n  geom_abline(slope = 1, intercept = 0, linetype = \"dashed\", color = \"red\") +\n  ggtitle(\"Actual vs Predicted Ozone Levels\") +\n  xlab(\"Actual Ozone Levels\") +\n  ylab(\"Predicted Ozone Levels\")\n\n\n\n\nStep 10: Error Distribution Plot\n\nactual_vs_predicted$Error &lt;- actual_vs_predicted$Actual - actual_vs_predicted$Predicted\nggplot(actual_vs_predicted, aes(x = Error)) +\n  geom_histogram(bins = 30, fill = \"blue\", alpha = 0.7) +\n  ggtitle(\"Distribution of Prediction Errors\") +\n  xlab(\"Prediction Error\") +\n  ylab(\"Frequency\")"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "Predicting Ozone levels with Precision\n\n\n\n\n\n\n\n\n\n\n\n\nDec 14, 2023\n\n\nSwathiReddy Bobbala\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Swathi Reddy Bobbala",
+    "section": "",
+    "text": "Swathi Reddy is currently pursuing her Masters of Science in Advanced Data Analytics at the University of North Texas.She completed her B.Tech in Computer Science Engineering from JNTU,India.\nExperience in migration of existing solutions on On-Premise systems/applications to Azure cloud.Around 10 years of expertise in Analysis, Design, and Development of data platform on on-prem and Azure Cloud with high-quality Data Modelling, design, and development of Data Pipelines to ingest, store and transform data for data analytics and systems integration.\nProficient in Java,Spring,J2EE, MS SQL Server, HTML, Maven, Log4j, Eclipse, Linux, Unix, Hadoop, Apache Spark.\n \n    \n  \n    \n     Email\n  \n  \n    \n     GitHub\n  \n  \n    \n     Resume"
+  },
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome To My Blog",
+    "section": "",
+    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+  }
+]
